@@ -17,16 +17,22 @@ public class BasketRepository(BasketDbContext dbContext) : IBasketRepository
 
     public async Task<ShoppingCart> StoreBasket(ShoppingCart basket, CancellationToken cancellationToken = default)
     {
-        var exists = await dbContext.ShoppingCarts.AnyAsync(x => x.UserName == basket.UserName, cancellationToken);
+        var existingCart = await dbContext.ShoppingCarts
+            .Include(x => x.Items)
+            .FirstOrDefaultAsync(x => x.UserName == basket.UserName, cancellationToken);
 
-        if (exists)
+        if (existingCart != null)
         {
-            dbContext.ShoppingCarts.Update(basket);
+
+            dbContext.ShoppingCartItems.RemoveRange(existingCart.Items);
+
+            existingCart.Items = basket.Items;
         }
         else
         {
             dbContext.ShoppingCarts.Add(basket);
         }
+
 
         await dbContext.SaveChangesAsync(cancellationToken);
         return basket;
