@@ -4,6 +4,7 @@ using BuildingBlocks.Exceptions.Handler;
 using Microsoft.EntityFrameworkCore;
 using Carter;
 using Basket.API.Repositories;
+using Discount.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
@@ -34,6 +35,11 @@ builder.Services.AddMediatR(config =>
 
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
 
 var app = builder.Build();
 

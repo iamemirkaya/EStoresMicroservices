@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Basket.API.Migrations
 {
     [DbContext(typeof(BasketDbContext))]
-    [Migration("20260301110057_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260307112338_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
