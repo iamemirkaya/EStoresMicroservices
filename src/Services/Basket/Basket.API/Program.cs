@@ -1,6 +1,7 @@
 using Basket.API.Data;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Carter;
 using Basket.API.Repositories;
@@ -40,6 +41,8 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 {
     options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
 });
+
+builder.Services.AddMessageBroker(builder.Configuration);
 
 var app = builder.Build();
 
