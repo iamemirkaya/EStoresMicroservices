@@ -49,6 +49,12 @@ services:
       context: .
       dockerfile: Services/Stock/Stock.API/Dockerfile
 
+  yarp.api.gateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
